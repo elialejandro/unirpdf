@@ -83,11 +83,25 @@ namespace Unir_PDF
                 PdfCopy writer = new PdfCopy(document, myStream);
                 document.Open();
                 document.AddCreationDate();
-                document.AddAuthor("Eli Alejandro Moreno López");
-                document.AddHeader("Reporte final de residencia", "Informe final");
-                document.AddKeywords("Residencia Profesional, ITTG, Instituto Tecnológico de Tuxtla Gutiérrez, Web Page, Página Web, PHP, Zend Framework");
+                if (txtAutor.Text != null)
+                {
+                    document.AddAuthor(txtAutor.Text);
+                }
+                if (txtHeader.Text != null)
+                {
+                    document.AddHeader(txtHeader.Text, "Document");
+                }
+                if (txtKeywords.Text != null)
+                {
+                    document.AddKeywords(txtKeywords.Text);
+                }
+                
                 document.AddProducer();
-                document.AddTitle("Reporte Final de Residencia Profesional");
+                
+                if (txtTitulo.Text != null)
+                {
+                    document.AddTitle(txtTitulo.Text);
+                }
                 // Calculando incremento
                 progressBar.Refresh();
                 int incremento = (int)(100 / (reader.NumberOfPages + reader2.NumberOfPages));
@@ -96,6 +110,7 @@ namespace Unir_PDF
                 {
                     writer.AddPage(writer.GetImportedPage(reader, i));
                     progressBar.PerformStep();
+                    progressBar.Increment(++incremento);
                 }
                 progressBar.Increment(50);
                 for (int i = 1; i <= reader2.NumberOfPages; i++)
@@ -106,6 +121,11 @@ namespace Unir_PDF
                 progressBar.Increment(100);
                 document.Close();
             }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
 
     }
